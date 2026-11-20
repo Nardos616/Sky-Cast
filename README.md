@@ -1,227 +1,358 @@
-# SkyCast — Modern Weather Forecast Web Application 🌤️
+<div align="center">
 
-> A modern, responsive weather forecast dashboard built with pure **HTML5**, **CSS3**, and **Vanilla JavaScript (ES6+)**. SkyCast delivers real-time weather insights, detailed atmospheric metrics, a 24-hour hourly prediction, and an extended 5-day forecast for any city worldwide using the OpenWeatherMap API.
+# 🌤️ SkyCast — Modern Weather Forecast Application
 
----
+**A production-ready, responsive weather intelligence dashboard built with pure HTML5, CSS3, and Vanilla JavaScript (ES6+).**
 
-## 📸 Overview
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?logo=javascript&logoColor=black&style=for-the-badge)](#)
+[![HTML5](https://img.shields.io/badge/HTML5-Semantic-E34F26?logo=html5&logoColor=white&style=for-the-badge)](#)
+[![CSS3](https://img.shields.io/badge/CSS3-Glassmorphism-1572B6?logo=css3&logoColor=white&style=for-the-badge)](#)
+[![API](https://img.shields.io/badge/Weather%20API-OpenWeatherMap%20%7C%20Open--Meteo-0284C7?style=for-the-badge)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge)](#)
+[![No Frameworks](https://img.shields.io/badge/Dependencies-Zero%20%28Vanilla%29-purple?style=for-the-badge)](#)
 
-**SkyCast** was designed from the ground up as a senior-level frontend project that adheres to modern web standards, sleek UI/UX design (dark navy glassmorphism, dynamic atmospheric ambient glows, fluid micro-animations), and strict separation of concerns — without relying on external frameworks like React, Vue, or Angular.
+<p align="center">
+  <a href="#-key-features">Features</a> •
+  <a href="#-system-architecture">Architecture</a> •
+  <a href="#-getting-started">Getting Started</a> •
+  <a href="#-api-configuration--resilience">API Setup</a> •
+  <a href="#-javascript-masterclass">JS Concepts</a> •
+  <a href="#-project-structure">Folder Structure</a> •
+  <a href="#-browser-compatibility">Compatibility</a>
+</p>
 
-It also serves as a comprehensive educational reference for mastering modern JavaScript concepts including the **Fetch API**, **Promises**, **Async/Await**, **JSON parsing**, **DOM manipulation**, **Event Delegation**, and **LocalStorage persistence**.
-
----
-
-## ✨ Features
-
-- 🌍 **Worldwide City Weather Search**: Instant real-time weather search with support for the `Enter` key, search button, input clearing (`×`), and empty query validation.
-- 📍 **Browser Geolocation API Support**: Retrieve real-time weather for your exact coordinates using the browser's built-in `navigator.geolocation` API.
-- 🕒 **City Local Time Synchronization**: Computes and displays the true local date and time of the searched city using the API's timezone offset (independent of the user's computer timezone).
-- 🌡️ **Temperature Unit Toggle (°C / °F)**: Seamlessly toggle between Celsius (metric) and Fahrenheit (imperial) with instant UI conversion and storage memory.
-- 🌓 **Theme Switching (Dark Navy & Light Sky)**: Toggle between a rich midnight navy glassmorphic theme and an airy, high-contrast light mode.
-- 🔮 **Condition-Aware Atmospheric Glows**: Ambient background lighting shifts subtly based on current weather conditions (Solar gold for clear day, moody violet for thunderstorms, oceanic blue for rain, icy cyan for snow).
-- 📊 **Comprehensive Atmospheric Details**: 7 dedicated glassmorphism cards displaying:
-  1. **Humidity** (%) with comfort range classification
-  2. **Wind Speed** (km/h or mph) with 16-point compass direction and degrees
-  3. **Atmospheric Pressure** (hPa) with barometric trend
-  4. **Visibility** (km or miles)
-  5. **Cloud Coverage** (%) with visual meter
-  6. **Sunrise Time** (formatted to city's local time)
-  7. **Sunset Time** (formatted to city's local time)
-- ⏱️ **24-Hour Hourly Forecast**: Interactive horizontally scrolling hourly cards showing temperature, weather condition icons, and rain probability.
-- 📅 **5-Day Extended Outlook**: Daily forecast cards with min/max temperatures, midday weather conditions, and an Apple Weather-style visual temperature range bar.
-- 💾 **Recent Search History**: Remembers your recent cities using `localStorage` with one-click re-search and individual deletion.
-- ⚡ **Popular Cities Quick-Launch**: Quick-select buttons for top world capitals (London, New York, Tokyo, Paris, Sydney, Dubai).
-- 🔄 **Live Data Refresh**: One-click refresh button with rotating animation to reload current weather data.
-- 🛡️ **Robust Error & Loading States**:
-  - Shimmering spinner overlay while fetching
-  - Specific feedback for 404 (city not found), 401 (invalid/missing key), 429 (rate limits), and network offline
-  - In-app API Key modal with live key validator and persistence
-- 📱 **Fully Responsive Layout**: Handcrafted CSS Grid and Flexbox layouts optimized for mobile smartphones (iOS & Android), tablets, laptops, and ultra-wide desktops.
+</div>
 
 ---
 
-## 🛠️ Technology Stack
+## 📖 Executive Summary
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Markup** | HTML5 (Semantic elements: `<header>`, `<main>`, `<section>`, `<nav>`, `<footer>`, `<form>`, ARIA accessibility attributes) |
-| **Styling** | CSS3 (Custom properties/variables, Flexbox, CSS Grid, Glassmorphism, Backdrop filters, Keyframe animations, Responsive media queries) |
-| **Logic** | Vanilla JavaScript (ES6+) — No frameworks, libraries, or bundlers |
-| **Typography** | Google Fonts ([Poppins](https://fonts.google.com/specimen/Poppins) & [Inter](https://fonts.google.com/specimen/Inter)) |
-| **Graphics** | Custom Scalable Vector Graphics (SVG) weather and metric icons |
-| **Weather Data** | [OpenWeatherMap API](https://openweathermap.org/api) (Current Weather & 5-Day / 3-Hour Forecast endpoints) |
+**SkyCast** is an enterprise-grade weather forecasting web application engineered without external JavaScript frameworks (no React, Vue, or Angular) or third-party CSS libraries. It demonstrates modern front-end craftsmanship: dark-mode-first glassmorphism, fluid micro-interactions, dynamic condition-based atmospheric lighting, robust multi-provider API resilience, and timezone-accurate data visualization.
+
+Beyond serving as an everyday weather dashboard, SkyCast is designed as an educational reference implementation for developers seeking to master **asynchronous JavaScript**, **HTTP lifecycle handling**, **event delegation**, **modular architecture**, and **defensive browser storage**.
 
 ---
 
-## 📂 Folder Structure
+## ✨ Key Features
+
+### 1. Global Search & Smart Geolocation
+- **Universal City Search**: Autocomplete-ready search query engine with `Enter` key listeners, clear (`×`) controls, and input validation with CSS shake animations.
+- **Hardware GPS Geolocation**: Direct integration with the browser's `navigator.geolocation` API, returning real-time atmospheric metrics for the user's exact coordinates.
+- **Client-Side Reverse Geocoding**: Automatically resolves GPS coordinates into recognized city and country names.
+- **Quick-Access World Capitals**: One-click quick search pills for major hubs (*London, New York, Tokyo, Paris, Sydney, Dubai*).
+- **Persistent Search History**: Tracks recently queried locations in browser `localStorage` with individual deletion and click-to-search functionality.
+
+### 2. Live Atmospheric Metrics
+- **Timezone Synchronization**: Computes the exact local date and clock time of the queried city using UTC offsets (`data.timezone`), unaffected by the client machine's local timezone.
+- **Dynamic Ambient Color Engine**: Background ambient gradients adapt to current weather conditions (solar amber for clear skies, slate violet for thunderstorms, oceanic azure for rain, frosty cyan for snow).
+- **7 Dedicated Atmospheric Cards**:
+  1. **Relative Humidity (%)**: Moisture index with qualitative comfort indicators (*Dry, Comfortable, High Moisture*).
+  2. **Wind Velocity & Direction**: Real-time speed formatted in `km/h` or `mph` alongside a 16-point meteorological compass bearing (e.g., `NE 45°`).
+  3. **Barometric Pressure**: Atmospheric pressure in `hPa` with fair/stormy threshold classification.
+  4. **Visibility Range**: Distance ratings in kilometers or miles with optical clarity descriptions.
+  5. **Cloud Coverage**: Cloud cover percentage with an animated visual gauge meter.
+  6. **Solar Sunrise**: Calculated dawn timestamp adjusted to the city's local time.
+  7. **Solar Sunset**: Calculated dusk timestamp adjusted to the city's local time.
+
+### 3. Predictive Forecasts
+- **24-Hour Hourly Timeline**: Horizontally scrollable 3-hour interval cards with responsive navigation controls, displaying temperatures, weather icons, and Probability of Precipitation (`POP %`).
+- **5-Day Extended Outlook**: Daily forecast summaries with diurnal min/max temperatures, midday condition icons, and an Apple Weather-inspired proportional gradient temperature range bar.
+
+### 4. User Experience & Customization
+- **Instant Unit Toggle (°C / °F)**: Effortlessly switch between Metric and Imperial measurement standards with instantaneous UI recalculation and persistent memory.
+- **Dual Theme Switcher**: Toggle between an immersive **Midnight Navy Glass** theme and a crisp **Airy Light Sky** theme with SVG icon morphing.
+- **Request Debounce & Concurrency Locking**: Prevents duplicate in-flight network requests on rapid clicks or repeated `Enter` keystrokes.
+- **In-App API Key Manager**: Built-in modal dialog featuring a real-time key diagnostic validator, password visibility toggle, and secure local storage.
+
+---
+
+## 🏛️ System Architecture
+
+SkyCast strictly follows the **Model-View-Controller (MVC)** architectural pattern to maintain clean separation of concerns and modular maintainability:
+
+```mermaid
+flowchart TD
+    subgraph UI ["View (ui.js)"]
+        DOM["DOM Tree & Glassmorphism Cards"]
+        Clock["Live Header Clock & Timezone Math"]
+        Toast["Alert Toasts & Loading Skeletons"]
+    end
+
+    subgraph Controller ["Controller (app.js)"]
+        Events["Event Listeners & Form Submissions"]
+        State["Application State Manager (AppState)"]
+        Debounce["Request Debounce & Concurrency Guard"]
+    end
+
+    subgraph Model ["Model & Data (api.js & storage.js)"]
+        OWM["OpenWeatherMap API (2.5)"]
+        OM["Open-Meteo Public API (Fallback)"]
+        Cache["LocalStorage (Preferences & History)"]
+    end
+
+    Events --> State
+    State --> Debounce
+    Debounce --> OWM
+    OWM -- "HTTP 401 / Pending Key" --> OM
+    OWM -- "200 OK" --> State
+    OM -- "200 OK" --> State
+    State --> DOM
+    State --> Cache
+    Cache --> State
+    DOM --> Toast
+```
+
+### Module Responsibilities
+
+| File | Architectural Role | Core Responsibilities |
+| :--- | :--- | :--- |
+| [`js/config.js`](file:///c:/Users/user/Desktop/Weather/js/config.js) | Configuration | API endpoint definitions, default city/unit presets, and metadata. |
+| [`js/storage.js`](file:///c:/Users/user/Desktop/Weather/js/storage.js) | Data Persistence | Browser `localStorage` CRUD operations for search history, units, theme, and API keys. |
+| [`js/api.js`](file:///c:/Users/user/Desktop/Weather/js/api.js) | Network Model | Fetch API requests, OpenWeatherMap integration, Open-Meteo fallback, and error handling. |
+| [`js/ui.js`](file:///c:/Users/user/Desktop/Weather/js/ui.js) | Presentation View | DOM selection, HTML template generation, timezone calculation, and UI animations. |
+| [`js/app.js`](file:///c:/Users/user/Desktop/Weather/js/app.js) | Application Controller | State orchestration, event delegation, lifecycle startup, and user interaction binding. |
+
+---
+
+## 🌐 API Configuration & Resilience
+
+SkyCast includes built-in **dual-provider resilience** to ensure users are never blocked by API rate limits, downtime, or key activation delays.
+
+```
+                  ┌────────────────────────┐
+                  │ User Initiates Search  │
+                  └───────────┬────────────┘
+                              │
+                    Has Custom API Key?
+                   /                  \
+             YES  /                    \  NO
+                 ▼                      ▼
+    ┌─────────────────────────┐   ┌─────────────────────────┐
+    │  Query OpenWeatherMap   │   │ Query Open-Meteo Public │
+    └────────────┬────────────┘   │ (Instant Live Worldwide)│
+                 │                └─────────────┬───────────┘
+          Response Status?                      │
+         /        │       \                     │
+     200 OK    401/429    Network Error         │
+       │          │             │               │
+       ▼          ▼             ▼               │
+    Render     Fallback to   Display Offline    │
+    Results    Open-Meteo    Toast Message      │
+                  │                             │
+                  └──────────────┬──────────────┘
+                                 ▼
+                     Render Live Weather Data
+```
+
+### Option 1: Zero-Configuration Mode (Instant Live Weather)
+SkyCast works **out of the box** without any setup required. If no custom key is provided, or if a newly generated key is still propagating, the app automatically pulls real-time weather from the open [Open-Meteo](https://open-meteo.com/) API.
+
+### Option 2: OpenWeatherMap API Integration
+To connect directly to your personal OpenWeatherMap developer account:
+
+1. **Obtain a Free Key**:
+   - Register at [home.openweathermap.org/users/sign_up](https://home.openweathermap.org/users/sign_up).
+   - Confirm your email address (required by OpenWeatherMap to activate keys).
+   - Copy your 32-character key from your account dashboard under **API keys**.
+
+2. **Configure Your Key (Choose Either Method)**:
+   - **Method A (Web UI)**: Click the **Key Settings** icon in the navigation bar, paste your key, and click **Save & Connect**.
+   - **Method B (Code File)**: Open [`js/config.js`](file:///c:/Users/user/Desktop/Weather/js/config.js) and insert your key:
+     ```javascript
+     const CONFIG = {
+       API_KEY: 'your_32_character_api_key_here',
+       BASE_URL: 'https://api.openweathermap.org/data/2.5',
+       DEFAULT_CITY: 'London',
+       DEFAULT_UNIT: 'metric'
+     };
+     ```
+
+### Troubleshooting HTTP Error Codes
+
+| HTTP Status | Root Cause | Built-in SkyCast Resolution |
+| :---: | :--- | :--- |
+| **`401`** | New OpenWeatherMap keys take **10 to 30 minutes** to propagate across edge servers, or email is unconfirmed. | SkyCast alerts you of the propagation window and seamlessly serves live data via the public API fallback. |
+| **`404`** | City name was misspelled or unrecognized. | Displays a dismissible error toast prompting the user to verify the spelling. |
+| **`429`** | OpenWeatherMap rate limit exceeded (60 calls/minute on free tier). | Notifies the user and routes secondary requests through the open fallback gateway. |
+| **`Offline`** | Client internet disconnect or DNS resolution failure. | Triggers an offline notification: *"Unable to connect. Please check your internet connection."* |
+
+---
+
+## 🚀 Getting Started
+
+Because SkyCast uses native ES6+ JavaScript without build tools or bundlers, it can be launched in seconds:
+
+### Quick Launch Options
+
+#### Option A: Direct Browser Execution
+Navigate to the project root and double-click [`index.html`](file:///c:/Users/user/Desktop/Weather/index.html) (or right-click and choose your preferred browser).
+
+#### Option B: VS Code / Antigravity Live Server
+1. Open the project directory in VS Code or Antigravity.
+2. Ensure the **Live Server** extension is installed.
+3. Right-click on `index.html` and click **"Open with Live Server"**.
+4. The application will be accessible at `http://127.0.0.1:5500/index.html`.
+
+#### Option C: Python HTTP Server (Command Line)
+Run a local lightweight server using Python:
+```bash
+# Python 3.x
+python -m http.server 3000
+```
+Open `http://localhost:3000` in your web browser.
+
+#### Option D: Node.js / npx serve
+```bash
+npx serve .
+```
+
+---
+
+## 🧠 JavaScript Masterclass: Core Concepts
+
+This application was engineered to demonstrate clean, idiomatic JavaScript principles. Key patterns in the codebase include:
+
+### 1. Concurrent Parallel Requests with `Promise.all`
+Instead of sequentially awaiting the current weather endpoint and then the forecast endpoint (which doubles network latency), SkyCast dispatches both HTTP requests concurrently:
+
+```javascript
+// js/api.js
+async searchWeather(city, unit = 'metric') {
+  // Dispatches both requests simultaneously
+  const [currentData, forecastData] = await Promise.all([
+    this.fetchCurrentWeather(city, unit),
+    this.fetchForecast(city, unit)
+  ]);
+
+  return { current: currentData, forecast: forecastData };
+}
+```
+
+### 2. Timezone-Independent Local Time Calculation
+JavaScript's `Date` object defaults to the user's local operating system timezone. To render the exact local time in Tokyo while a user views the site from New York, SkyCast shifts UTC timestamps by the city's timezone offset and formats using `timeZone: 'UTC'`:
+
+```javascript
+// js/ui.js
+getCityLocalDateTime(timezoneOffsetSeconds = 0) {
+  // Epoch ms shifted by the target city's UTC offset
+  const cityNowMs = Date.now() + (timezoneOffsetSeconds * 1000);
+  const cityDate = new Date(cityNowMs);
+
+  return {
+    formattedTime: cityDate.toLocaleTimeString('en-US', {
+      timeZone: 'UTC',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    }),
+    formattedDate: cityDate.toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric'
+    })
+  };
+}
+```
+
+### 3. Defensive LocalStorage Serialization & Storage Quota Protection
+To guard against private browsing restrictions, storage exhaustion, or corrupted JSON strings, all storage methods are safely wrapped:
+
+```javascript
+// js/storage.js
+saveRecentSearch(city) {
+  try {
+    const existing = this.loadRecentSearches();
+    // Case-insensitive deduplication
+    const filtered = existing.filter(
+      item => item.toLowerCase() !== city.trim().toLowerCase()
+    );
+    filtered.unshift(city.trim());
+
+    const trimmed = filtered.slice(0, this.MAX_RECENT_SEARCHES);
+    localStorage.setItem(this.KEYS.RECENT_SEARCHES, JSON.stringify(trimmed));
+    return trimmed;
+  } catch (error) {
+    console.warn('Storage operation failed safely:', error);
+    return [];
+  }
+}
+```
+
+### 4. DOM XSS Prevention
+User-supplied input and API response strings are inserted using `element.textContent` rather than `innerHTML` wherever dynamic text is rendered, neutralizing Cross-Site Scripting (XSS) vectors.
+
+---
+
+## 📁 Project Structure
 
 ```
 weather-app/
 │
-├── index.html              # Main HTML markup and application skeleton
+├── index.html                  # Semantic HTML5 markup, ARIA roles, and component containers
 │
 ├── css/
-│   └── style.css           # Modern CSS styling, themes, animations, & responsive rules
+│   └── style.css               # Design tokens, CSS variables, glassmorphism, responsive grids
 │
 ├── js/
-│   ├── app.js              # Application controller, event listeners, & initialization
-│   ├── api.js              # OpenWeatherMap Fetch API calls, HTTP error handling, & parsing
-│   ├── ui.js               # DOM manipulation, dynamic rendering, & visual state management
-│   ├── storage.js          # LocalStorage CRUD operations for history, units, theme, & key
-│   ├── config.js           # Active API key configuration file
-│   └── config.example.js   # Configuration blueprint and documentation template
+│   ├── app.js                  # Application state, orchestration, lifecycle, and event listeners
+│   ├── api.js                  # Fetch API client, OpenWeatherMap & Open-Meteo dual-engine
+│   ├── ui.js                   # DOM manipulation, card rendering, and timezone formatting
+│   ├── storage.js              # LocalStorage CRUD interface with defensive error handling
+│   ├── config.js               # Active runtime configuration file
+│   └── config.example.js       # Template configuration with educational security notes
 │
 ├── assets/
-│   ├── icons/              # Scalable SVG weather and UI metric icons
-│   │   ├── clear-day.svg
-│   │   ├── clear-night.svg
-│   │   ├── partly-cloudy.svg
-│   │   ├── cloudy.svg
-│   │   ├── rain.svg
-│   │   ├── thunderstorm.svg
-│   │   ├── snow.svg
-│   │   ├── mist.svg
-│   │   ├── humidity.svg
-│   │   ├── wind.svg
-│   │   ├── pressure.svg
-│   │   ├── visibility.svg
-│   │   ├── sunrise.svg
-│   │   └── sunset.svg
-│   └── images/             # Visual assets directory
+│   ├── icons/                  # Scalable SVG weather and metric icons
+│   │   ├── clear-day.svg       # Sunny / clear sky day icon
+│   │   ├── clear-night.svg     # Moon / clear sky night icon
+│   │   ├── partly-cloudy.svg   # Scattered clouds icon
+│   │   ├── cloudy.svg          # Overcast clouds icon
+│   │   ├── rain.svg            # Rain showers icon
+│   │   ├── thunderstorm.svg    # Thunderstorm with lightning icon
+│   │   ├── snow.svg            # Snow flurries icon
+│   │   ├── mist.svg            # Atmospheric fog/haze icon
+│   │   ├── humidity.svg        # Water droplet humidity metric icon
+│   │   ├── wind.svg            # Wind flow metric icon
+│   │   ├── pressure.svg        # Barometer pressure dial icon
+│   │   ├── visibility.svg      # Eye visibility metric icon
+│   │   ├── sunrise.svg         # Solar sunrise icon
+│   │   └── sunset.svg          # Solar sunset icon
+│   └── images/                 # Image assets directory
 │
-└── README.md               # Project documentation and architectural guide
+└── README.md                   # Project documentation and architectural blueprint
 ```
 
 ---
 
-## 🔑 OpenWeatherMap API Setup
+## 📱 Browser Compatibility
 
-SkyCast requires an OpenWeatherMap API key to fetch real-time weather data.
+SkyCast is engineered to operate seamlessly across all modern evergreen desktop and mobile browsers:
 
-### Step 1: Obtain a Free API Key
-1. Go to [https://home.openweathermap.org/users/sign_up](https://home.openweathermap.org/users/sign_up).
-2. Create a free account and confirm your registration via the verification email.
-3. Once logged in, open the **API keys** tab in your profile dashboard.
-4. Copy your default 32-character key (or generate a new one).
-> *Note: OpenWeatherMap servers typically take **10 to 15 minutes** to activate a newly registered key.*
-
-### Step 2: Configure Your API Key
-
-You can configure your API key in **either of two convenient ways**:
-
-#### Method A: Directly in the Web UI (Recommended)
-1. Launch SkyCast in your browser.
-2. Click the **Key icon** (or the **"Configure Key"** button on the setup banner).
-3. Paste your 32-character key into the input field and click **"Save & Connect"**.
-4. The key is securely saved to your browser's `localStorage` and will persist across sessions.
-
-#### Method B: In the `js/config.js` File
-1. Open the file [`js/config.js`](file:///c:/Users/user/Desktop/Weather/js/config.js).
-2. Enter your key inside the `API_KEY` property:
-   ```javascript
-   const CONFIG = {
-     API_KEY: 'your_32_character_api_key_here',
-     BASE_URL: 'https://api.openweathermap.org/data/2.5',
-     DEFAULT_CITY: 'London',
-     DEFAULT_UNIT: 'metric',
-   };
-   ```
-3. Save the file and refresh your browser.
-
-> ⚠️ **Important Security Note on Frontend API Keys:**
-> Client-side API keys included in frontend JavaScript or HTML files are downloaded to the client's browser and can be inspected via Developer Tools (`F12 -> Network`). In commercial production applications, API keys should be held on a backend server (e.g., Node.js or serverless proxy) to prevent unauthorized use. For frontend educational projects, OpenWeatherMap provides a free tier suited for direct client-side requests.
+| Browser | Desktop Support | Mobile Support | Tested Features |
+| :--- | :---: | :---: | :--- |
+| **Google Chrome** | ✅ v88+ | ✅ Android | Fetch, CSS Backdrop-Filter, Geolocation, Grid |
+| **Mozilla Firefox** | ✅ v85+ | ✅ Android | CSS Custom Properties, LocalStorage, Flexbox |
+| **Apple Safari** | ✅ v14+ | ✅ iOS | Touch Scrolling, Backdrop Blur, Web APIs |
+| **Microsoft Edge** | ✅ v88+ | ✅ Windows/Android | Chromium Engine Standards, SVG Scaling |
+| **Opera / Brave** | ✅ Latest | ✅ Mobile | Privacy Mode Compatibility, Ad-block Tolerance |
 
 ---
 
-## 🚀 How to Run the Application
+## 🔒 Security Best Practices for Frontend APIs
 
-Because SkyCast uses pure Vanilla JavaScript and standard relative paths, you can run it effortlessly in any modern web browser:
+When deploying client-side web applications:
 
-### Option 1: Direct File Opening
-Double-click [`index.html`](file:///c:/Users/user/Desktop/Weather/index.html) or right-click and choose **Open With -> Google Chrome / Mozilla Firefox / Microsoft Edge / Safari**.
-
-### Option 2: Using VS Code Live Server
-1. Open the project folder in **Visual Studio Code** or **Antigravity**.
-2. Install the **Live Server** extension (by Ritwick Dey).
-3. Right-click on `index.html` and select **"Open with Live Server"**.
-4. The application will launch at `http://127.0.0.1:5500/index.html`.
-
-### Option 3: Using Python HTTP Server (Terminal)
-Open your terminal in the project directory and run:
-```bash
-# Python 3
-python -m http.server 3000
-```
-Then navigate to `http://localhost:3000` in your browser.
-
----
-
-## 🧠 JavaScript Concepts Practiced
-
-This project was engineered as a masterclass in modern, foundational JavaScript:
-
-### 1. The Fetch API & HTTP Protocol
-- Sending asynchronous HTTP GET requests using `window.fetch(url)`.
-- Understanding HTTP request anatomy (endpoints, query parameters, URL encoding with `encodeURIComponent`).
-- Inspecting HTTP responses: `response.ok` (checking for status codes in the 200–299 range) and `response.status` (handling 401, 404, 429).
-- Parsing JSON response streams via `await response.json()`.
-
-### 2. Promises & Asynchronous Execution
-- Grasping that `fetch()` and `response.json()` return `Promise` objects representing values available in the future.
-- Leveraging `Promise.all([fetchCurrentWeather(), fetchForecast()])` to execute independent network calls concurrently in parallel, cutting wait time in half.
-
-### 3. Async / Await Syntax
-- Using `async` functions to write asynchronous code that reads like synchronous procedural code.
-- Utilizing `await` to pause execution until a Promise settles without blocking the browser's main thread.
-- Catching network and logic errors cleanly using `try...catch...finally` blocks.
-
-### 4. DOM Selection & Dynamic Manipulation
-- Selecting elements using `document.getElementById()`, `document.querySelector()`, and `document.querySelectorAll()`.
-- Updating content safely with `element.textContent` to prevent Cross-Site Scripting (XSS).
-- Dynamically generating elements with `document.createElement()` and `appendChild()`.
-- Injecting templated markup using template literals (`` `${expression}` ``).
-- Managing CSS classes dynamically with `element.classList.add()`, `.remove()`, and `.toggle()`.
-
-### 5. Event Handling & Delegation
-- Attaching event listeners using `addEventListener('submit', ...)`, `addEventListener('click', ...)`, and `addEventListener('keydown', ...)`.
-- Preventing default browser page refreshes using `event.preventDefault()`.
-- Using event delegation (`event.target.closest()`) to handle clicks on dynamic chip buttons efficiently.
-
-### 6. Web Storage API (`localStorage`)
-- Persisting state across browser refreshes with `localStorage.setItem()`.
-- Reading saved preferences with `localStorage.getItem()`.
-- Serializing arrays and objects into JSON strings with `JSON.stringify()`.
-- Deserializing strings back into JavaScript data structures with `JSON.parse()`.
-- Wrapping storage operations in `try...catch` to prevent crashes in private/incognito browsing modes.
-
-### 7. Modern ES6+ Features
-- Block-scoped declarations (`const` and `let`).
-- Arrow functions (`() => {}`) with concise body syntax.
-- Object & Array destructuring (`const { current, forecast } = await ...`).
-- Array higher-order methods: `.map()`, `.filter()`, `.forEach()`, `.reduce()`, `.slice()`.
-- Modular separation of concerns into dedicated single-responsibility files (`api.js`, `ui.js`, `storage.js`, `app.js`).
-
----
-
-## 📋 Verification Checklist
-
-- [x] Pure Vanilla JavaScript (No React, Vue, jQuery, or third-party frameworks).
-- [x] Modern UI/UX with dark navy glassmorphism and subtle ambient glows.
-- [x] Responsive layout across mobile, tablet, laptop, and desktop.
-- [x] Real-time city search with enter key and click listeners.
-- [x] Browser Geolocation API integration ("My Location").
-- [x] Live local city clock calculated from timezone offset.
-- [x] 7 atmospheric detail metric cards.
-- [x] 24-hour hourly forecast with horizontal scrolling.
-- [x] 5-day extended forecast with visual range bars.
-- [x] Celsius (°C) and Fahrenheit (°F) toggle with state persistence.
-- [x] Dark / Light theme toggle with state persistence.
-- [x] Recent search history saved in `localStorage`.
-- [x] API key configuration via `js/config.js` or in-app modal.
-- [x] Comprehensive error handling (404, 401, offline network).
+> **Important:** Any API key embedded in front-end HTML, CSS, or JavaScript files is publicly visible to anyone inspecting network traffic or source code (`DevTools -> Network`).
+> - For personal projects and educational portfolios, OpenWeatherMap's free tier is standard and safe to use.
+> - For production enterprise deployments, requests should be routed through a backend proxy server (such as Node.js/Express, Python/FastAPI, or a serverless cloud function) to keep commercial API secrets secured server-side.
 
 ---
 
 ## 📄 License
-This project is open-source and available under the **MIT License**.
+
+This project is licensed under the **MIT License** — you are free to use, modify, and distribute this software for personal and commercial applications. See the LICENSE file for details.
+
+<div align="center">
+  <sub>Crafted with modern Vanilla JavaScript, CSS3 &amp; HTML5. Powered by OpenWeatherMap and Open-Meteo APIs.</sub>
+</div>
