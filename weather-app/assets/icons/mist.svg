@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <defs>
+    <linearGradient id="mistGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#94A3B8" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#CBD5E1" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#94A3B8" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+  <rect x="12" y="20" width="40" height="4" rx="2" fill="url(#mistGrad)" />
+  <rect x="18" y="28" width="34" height="4" rx="2" fill="url(#mistGrad)" />
+  <rect x="10" y="36" width="44" height="4" rx="2" fill="url(#mistGrad)" />
+  <rect x="16" y="44" width="32" height="4" rx="2" fill="url(#mistGrad)" />
+</svg>

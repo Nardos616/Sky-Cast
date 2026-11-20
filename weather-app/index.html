@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>SkyCast — Modern Weather Forecast</title>
+  <meta name="description"
+    content="SkyCast is a modern, responsive weather forecast web application built with HTML5, CSS3, and Vanilla JavaScript." />
+
+  <!-- Google Fonts: Inter & Poppins for modern typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/clear-day.svg" />
+</head>
+
+<body>
+  <!-- Atmospheric Dynamic Background Glows -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- Main Container -->
+  <div class="app-layout">
+
+    <!-- =====================================================================
+         A. NAVIGATION BAR
+         ===================================================================== -->
+    <header class="app-header glass-card">
+      <div class="header-left">
+        <a href="#" class="brand-logo" aria-label="SkyCast Home">
+          <div class="logo-icon-wrap">
+            <!-- Animated sun/cloud SVG logo -->
+            <svg class="brand-svg" viewBox="0 0 36 36" width="32" height="32" fill="none">
+              <circle cx="15" cy="15" r="7" fill="#F59E0B" />
+              <path d="M28 26H13a6 6 0 0 1-1-11.9 9 9 0 0 1 17-2.6A5.5 5.5 0 0 1 28 26z" fill="#E2E8F0" />
+            </svg>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">SkyCast</span>
+            <span class="brand-badge">Forecast</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <!-- Live Current Date Display -->
+        <div class="date-display">
+          <svg class="nav-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          <span id="currentDate">Wednesday, Nov 19, 2026</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <!-- Temperature Unit Toggle: Celsius / Fahrenheit -->
+        <button id="unitToggleBtn" class="nav-btn unit-toggle" type="button" aria-label="Toggle Celsius or Fahrenheit"
+          title="Switch temperature unit">
+          <span class="unit-option unit-c active">°C</span>
+          <span class="unit-divider">/</span>
+          <span class="unit-option unit-f">°F</span>
+        </button>
+
+        <!-- Theme Toggle: Dark / Light Mode -->
+        <button id="themeToggleBtn" class="nav-btn icon-btn" type="button" aria-label="Toggle Dark or Light theme"
+          title="Toggle theme">
+          <!-- Sun Icon (visible in dark mode) -->
+          <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="12" cy="12" r="5" />
+            <line x1="12" y1="1" x2="12" y2="3" />
+            <line x1="12" y1="21" x2="12" y2="23" />
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+            <line x1="1" y1="12" x2="3" y2="12" />
+            <line x1="21" y1="12" x2="23" y2="12" />
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+          </svg>
+          <!-- Moon Icon (visible in light mode) -->
+          <svg class="icon-moon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        </button>
+
+        <!-- Refresh Button -->
+        <button id="refreshBtn" class="nav-btn icon-btn" type="button" aria-label="Refresh weather data"
+          title="Refresh weather">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+          </svg>
+        </button>
+
+        <!-- Settings / API Key Button -->
+        <button id="settingsBtn" class="nav-btn icon-btn settings-btn" type="button" aria-label="Configure API Key"
+          title="API Key Settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 2l-2 2m-1.5 6.5l3-3a3.536 3.536 0 1 0-5-5l-3 3" />
+            <path d="M9 11l-7 7v4h4l7-7" />
+            <line x1="13" y1="7" x2="17" y2="11" />
+          </svg>
+          <span id="apiKeyStatusBadge" class="status-badge status-warning" title="API Key Status"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Missing API Key Notice Banner -->
+    <div id="apiKeyBanner" class="api-key-banner glass-card hidden">
+      <div class="banner-content">
+        <div class="banner-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#F59E0B" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+        </div>
+        <div class="banner-text">
+          <strong>OpenWeatherMap API Key Required:</strong> To fetch real-time weather and forecasts worldwide, enter
+          your free API key or add it to <code>js/config.js</code>.
+        </div>
+      </div>
+      <div class="banner-actions">
+        <button id="openKeyModalFromBanner" class="btn btn-sm btn-primary" type="button">Configure Key</button>
+        <a href="https://home.openweathermap.org/users/sign_up" target="_blank" rel="noopener noreferrer"
+          class="btn btn-sm btn-secondary">Get Free Key &nearr;</a>
+      </div>
+    </div>
+
+    <!-- Floating Error Alert Toast -->
+    <div id="alertToast" class="alert-toast glass-card hidden" role="alert">
+      <div class="alert-icon">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#EF4444" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <div id="alertMessage" class="alert-msg">City not found. Please check spelling.</div>
+      <button id="alertCloseBtn" class="alert-close" type="button" aria-label="Close notification">&times;</button>
+    </div>
+
+    <!-- =====================================================================
+         B. SEARCH SECTION
+         ===================================================================== -->
+    <section class="search-section">
+      <form id="searchForm" class="search-form glass-card" autocomplete="off">
+        <div class="search-input-wrapper">
+          <!-- Search Icon -->
+          <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+
+          <!-- Input Field -->
+          <input type="text" id="cityInput" class="city-input"
+            placeholder="Search city worldwide (e.g., Tokyo, Paris, New York)..." aria-label="Search city name"
+            spellcheck="false" />
+
+          <!-- Clear Button -->
+          <button id="clearInputBtn" class="clear-btn hidden" type="button" aria-label="Clear search input">
+            &times;
+          </button>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="search-actions">
+          <!-- Current Location Button -->
+          <button id="locateBtn" class="btn btn-ghost locate-btn" type="button" title="Use current location via GPS">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 2v3m0 14v3M2 12h3m14 0h3" />
+              <circle cx="12" cy="12" r="7" />
+            </svg>
+            <span class="btn-text">My Location</span>
+          </button>
+
+          <!-- Search Submit Button -->
+          <button id="searchBtn" class="btn btn-primary search-submit-btn" type="submit">
+            <span class="btn-spinner"></span>
+            <span class="btn-text">Search</span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Popular Quick Search Cities -->
+      <div class="popular-cities-bar">
+        <span class="chips-label">Popular:</span>
+        <div id="popularChipsList" class="chips-row">
+          <button type="button" class="popular-city-btn" data-city="London">London</button>
+          <button type="button" class="popular-city-btn" data-city="New York">New York</button>
+          <button type="button" class="popular-city-btn" data-city="Tokyo">Tokyo</button>
+          <button type="button" class="popular-city-btn" data-city="Paris">Paris</button>
+          <button type="button" class="popular-city-btn" data-city="Sydney">Sydney</button>
+          <button type="button" class="popular-city-btn" data-city="Dubai">Dubai</button>
+        </div>
+      </div>
+
+      <!-- Recent Searches Chips -->
+      <div id="recentSearchesContainer" class="recent-searches-bar hidden">
+        <span class="chips-label">Recent:</span>
+        <div id="recentChipsList" class="chips-row">
+          <!-- Dynamically populated via storage.js & ui.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         LOADING OVERLAY
+         ===================================================================== -->
+    <div id="loadingOverlay" class="loading-overlay glass-card hidden">
+      <div class="spinner-pulse"></div>
+      <p id="loadingMessage" class="loading-text">Fetching weather information...</p>
+    </div>
+
+    <!-- =====================================================================
+         EMPTY / WELCOME STATE (Displayed Before Searching)
+         ===================================================================== -->
+    <section id="welcomeState" class="welcome-section glass-card">
+      <div class="welcome-illustration">
+        <img src="assets/icons/partly-cloudy.svg" alt="Welcome to SkyCast" width="120" height="120" />
+      </div>
+      <h1 class="welcome-title">Explore Global Weather with SkyCast</h1>
+      <p class="welcome-subtitle">
+        Search for any city worldwide, use your current GPS location, or pick a popular city above to retrieve live
+        atmospheric conditions, hourly predictions, and a 5-day forecast.
+      </p>
+      <div class="welcome-features">
+        <div class="feature-item">
+          <span class="feature-icon">&#x26A1;</span>
+          <span>Live OpenWeatherMap API</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">&#x23F0;</span>
+          <span>24-Hour Hourly Forecast</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">&#x1F4C5;</span>
+          <span>5-Day Extended Outlook</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">&#x1F30E;</span>
+          <span>City Local Timezone Sync</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         WEATHER DASHBOARD (Rendered with real data)
+         ===================================================================== -->
+    <main id="weatherDashboard" class="weather-dashboard hidden">
+
+      <!-- Top Row: Hero Current Weather Card -->
+      <section class="current-weather-hero glass-card">
+        <div class="hero-header">
+          <div class="city-location-wrap">
+            <svg class="location-pin-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            <h2 id="cityName" class="city-title">London</h2>
+            <span id="countryBadge" class="country-badge">GB</span>
+          </div>
+          <div id="localTime" class="local-time-badge">Wednesday, Nov 19 • 3:45 PM (Local)</div>
+        </div>
+
+        <div class="hero-body">
+          <div class="hero-temp-block">
+            <div class="temp-display-wrap">
+              <span id="currentTemp" class="current-temp-number">18</span>
+              <span id="tempUnitLabel" class="current-temp-unit">°C</span>
+            </div>
+            <div class="hero-conditions">
+              <div id="weatherCondition" class="condition-headline">Scattered Clouds</div>
+              <div id="weatherDescription" class="condition-subtext">Partly cloudy with gentle breeze</div>
+            </div>
+          </div>
+
+          <div class="hero-icon-block">
+            <img id="weatherIconHero" class="hero-weather-icon" src="assets/icons/partly-cloudy.svg"
+              alt="Current Weather Icon" />
+          </div>
+        </div>
+
+        <div class="hero-footer">
+          <div class="hero-stat-pill">
+            <span class="stat-label">Feels Like</span>
+            <span id="feelsLikeTemp" class="stat-value">17°C</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-pill">
+            <span class="stat-label">High</span>
+            <span id="tempHigh" class="stat-value">21°C</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat-pill">
+            <span class="stat-label">Low</span>
+            <span id="tempLow" class="stat-value">14°C</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Second Row: Weather Details (7 Metric Cards) -->
+      <section class="weather-details-section">
+        <h3 class="section-title">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          Atmospheric Conditions
+        </h3>
+
+        <div class="details-grid">
+          <!-- Card 1: Humidity -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Humidity</span>
+              <img src="assets/icons/humidity.svg" class="detail-icon" alt="Humidity Icon" width="28" height="28" />
+            </div>
+            <div id="humidityVal" class="detail-value">68%</div>
+            <div id="humidityDesc" class="detail-desc">Comfortable</div>
+          </div>
+
+          <!-- Card 2: Wind Speed & Direction -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Wind Speed</span>
+              <img src="assets/icons/wind.svg" class="detail-icon" alt="Wind Icon" width="28" height="28" />
+            </div>
+            <div id="windVal" class="detail-value">14 km/h</div>
+            <div id="windDir" class="detail-desc">Direction: NE (45°)</div>
+          </div>
+
+          <!-- Card 3: Atmospheric Pressure -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Pressure</span>
+              <img src="assets/icons/pressure.svg" class="detail-icon" alt="Pressure Icon" width="28" height="28" />
+            </div>
+            <div id="pressureVal" class="detail-value">1016 hPa</div>
+            <div id="pressureDesc" class="detail-desc">Normal Pressure</div>
+          </div>
+
+          <!-- Card 4: Visibility -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Visibility</span>
+              <img src="assets/icons/visibility.svg" class="detail-icon" alt="Visibility Icon" width="28" height="28" />
+            </div>
+            <div id="visibilityVal" class="detail-value">10.0 km</div>
+            <div id="visibilityDesc" class="detail-desc">Clear Visibility</div>
+          </div>
+
+          <!-- Card 5: Cloud Coverage -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Cloud Cover</span>
+              <span class="cloud-icon-pill">&#x2601;</span>
+            </div>
+            <div id="cloudsVal" class="detail-value">75%</div>
+            <div class="progress-track">
+              <div id="cloudsBar" class="progress-fill" style="width: 75%;"></div>
+            </div>
+          </div>
+
+          <!-- Card 6: Sunrise -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Sunrise</span>
+              <img src="assets/icons/sunrise.svg" class="detail-icon" alt="Sunrise Icon" width="28" height="28" />
+            </div>
+            <div id="sunriseVal" class="detail-value">06:42 AM</div>
+            <div class="detail-desc">Dawn at location</div>
+          </div>
+
+          <!-- Card 7: Sunset -->
+          <div class="detail-card glass-card">
+            <div class="detail-card-header">
+              <span class="detail-name">Sunset</span>
+              <img src="assets/icons/sunset.svg" class="detail-icon" alt="Sunset Icon" width="28" height="28" />
+            </div>
+            <div id="sunsetVal" class="detail-value">05:18 PM</div>
+            <div class="detail-desc">Dusk at location</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Third Row: Hourly Forecast (24 Hours) -->
+      <section class="hourly-forecast-section">
+        <div class="section-header-row">
+          <h3 class="section-title">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Hourly Forecast (Next 24 Hours)
+          </h3>
+          <div class="scroll-arrows">
+            <button id="scrollLeftHourlyBtn" class="scroll-btn" type="button" aria-label="Scroll hourly forecast left">
+              &larr;
+            </button>
+            <button id="scrollRightHourlyBtn" class="scroll-btn" type="button"
+              aria-label="Scroll hourly forecast right">
+              &rarr;
+            </button>
+          </div>
+        </div>
+
+        <div id="hourlyList" class="hourly-list">
+          <!-- Dynamically populated via ui.js -->
+        </div>
+      </section>
+
+      <!-- Fourth Row: 5-Day Forecast -->
+      <section class="five-day-section">
+        <h3 class="section-title">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+          5-Day Forecast
+        </h3>
+
+        <div id="fiveDayList" class="five-day-list">
+          <!-- Dynamically populated via ui.js -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <p>Built with Vanilla JavaScript, HTML5 &amp; CSS3 &bull; Powered by <a href="https://openweathermap.org/"
+            target="_blank" rel="noopener noreferrer">OpenWeatherMap API</a></p>
+        <p class="footer-note">Designed for modern responsive web development &bull; SkyCast v1.0</p>
+      </div>
+    </footer>
+
+  </div> <!-- End .app-layout -->
+
+  <!-- =====================================================================
+       API KEY CONFIGURATION MODAL
+       ===================================================================== -->
+  <div id="apiKeyModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 2l-2 2m-1.5 6.5l3-3a3.536 3.536 0 1 0-5-5l-3 3" />
+            <path d="M9 11l-7 7v4h4l7-7" />
+            <line x1="13" y1="7" x2="17" y2="11" />
+          </svg>
+          <h3 id="modalTitle">API Key Configuration</h3>
+        </div>
+        <button id="closeApiKeyModalBtn" class="modal-close" type="button" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-intro">
+          SkyCast connects to OpenWeatherMap to pull real-time weather and forecasts. You can enter your API key below
+          or edit <code>js/config.js</code> directly.
+        </p>
+
+        <div class="input-group">
+          <label for="apiKeyInput" class="input-label">OpenWeatherMap API Key (32 characters):</label>
+          <div class="input-with-action">
+            <input type="password" id="apiKeyInput" class="form-control" placeholder="e.g. 1a2b3c4d5e6f7g8h9i0j..."
+              spellcheck="false" autocomplete="off" />
+            <button id="toggleKeyVisibilityBtn" type="button" class="btn btn-sm btn-ghost">Show</button>
+          </div>
+        </div>
+
+        <div id="apiKeyTestFeedback" class="modal-feedback"></div>
+
+        <div class="modal-info-box">
+          <h4>Why did I see "Invalid or unauthorized API key"?</h4>
+          <ol>
+            <li><strong>Activation Delay:</strong> Newly registered free OpenWeatherMap keys take <strong>10 to 30
+                minutes (up to 2 hours)</strong> to activate across OpenWeatherMap's servers.</li>
+            <li><strong>Email Verification:</strong> Ensure you confirmed your email address via the link sent by
+              OpenWeatherMap.</li>
+            <li><strong>Instant Free Live Mode:</strong> While waiting for your key to activate, SkyCast automatically
+              uses the public weather API (Open-Meteo) so you can search any city with live real-time data immediately!
+            </li>
+          </ol>
+          <p class="security-note">
+            <small>&#x1F512; <strong>Security note:</strong> Client-side API keys are visible in browser developer
+              tools. Never use paid or private backend keys in client-side applications.</small>
+          </p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="clearApiKeyBtn" class="btn btn-danger" type="button">Clear Key</button>
+        <button id="saveApiKeyBtn" class="btn btn-primary" type="button">Save &amp; Connect</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       SCRIPTS (Separated by concerns)
+       ===================================================================== -->
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+
+</html>
