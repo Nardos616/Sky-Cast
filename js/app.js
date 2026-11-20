@@ -483,16 +483,39 @@ function setupEventListeners() {
     });
   }
 
-  // 10. Hourly Forecast Horizontal Scroll Buttons
+  // 10. Hourly Forecast Horizontal Scroll Buttons & Dynamic Events
   if (elements.scrollLeftHourlyBtn && elements.hourlyList) {
     elements.scrollLeftHourlyBtn.addEventListener('click', () => {
-      elements.hourlyList.scrollBy({ left: -240, behavior: 'smooth' });
+      const scrollStep = Math.max(280, elements.hourlyList.clientWidth * 0.7);
+      elements.hourlyList.scrollBy({ left: -scrollStep, behavior: 'smooth' });
     });
   }
+
   if (elements.scrollRightHourlyBtn && elements.hourlyList) {
     elements.scrollRightHourlyBtn.addEventListener('click', () => {
-      elements.hourlyList.scrollBy({ left: 240, behavior: 'smooth' });
+      const scrollStep = Math.max(280, elements.hourlyList.clientWidth * 0.7);
+      elements.hourlyList.scrollBy({ left: scrollStep, behavior: 'smooth' });
     });
+  }
+
+  if (elements.hourlyList) {
+    // Update arrow states dynamically on scroll
+    elements.hourlyList.addEventListener('scroll', () => {
+      WeatherUI.updateHourlyScrollButtons();
+    }, { passive: true });
+
+    // Update arrow states on window resize
+    window.addEventListener('resize', () => {
+      WeatherUI.updateHourlyScrollButtons();
+    });
+
+    // Mouse wheel horizontal scroll support
+    elements.hourlyList.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0 && elements.hourlyList.scrollWidth > elements.hourlyList.clientWidth) {
+        e.preventDefault();
+        elements.hourlyList.scrollBy({ left: e.deltaY, behavior: 'auto' });
+      }
+    }, { passive: false });
   }
 
   // 11. API Key Settings Modal

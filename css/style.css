@@ -1095,8 +1095,8 @@ html, body {
 }
 
 .scroll-btn {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   background: var(--btn-ghost-bg);
   border: 1px solid var(--card-border);
@@ -1105,13 +1105,28 @@ html, body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
-  font-size: 0.95rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 1rem;
+  user-select: none;
 }
 
-.scroll-btn:hover {
-  background: var(--btn-ghost-hover);
-  border-color: var(--card-border-hover);
+.scroll-btn:hover:not(:disabled) {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px var(--color-primary-glow);
+}
+
+.scroll-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.scroll-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+  pointer-events: none;
+  transform: none;
 }
 
 .hourly-list {
