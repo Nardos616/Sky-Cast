@@ -370,7 +370,7 @@ const WeatherUI = {
   },
 
   /**
-   * Render upcoming hourly weather cards (Next 24 hours in 3-hour increments)
+   * Render upcoming hourly weather cards (Up to 72 hours in 3-hour increments)
    *
    * @param {Object} forecastData - Parsed forecast response
    * @param {string} unit - 'metric' or 'imperial'
@@ -380,10 +380,13 @@ const WeatherUI = {
 
     const unitSymbol = unit === 'imperial' ? '°F' : '°C';
     const cityOffset = forecastData.city?.timezone || 0;
-    const list = forecastData.list.slice(0, 8); // Next 8 intervals = 24 hours
+    // Render up to 24 upcoming intervals (72 hours) so cards scroll smoothly on all screen sizes
+    const list = forecastData.list.slice(0, 24);
 
     // Clear previous items
     this.elements.hourlyList.innerHTML = '';
+
+    const todayKey = new Date(Date.now() + cityOffset * 1000).toISOString().split('T')[0];
 
     list.forEach((item, index) => {
       const weather = item.weather && item.weather[0] ? item.weather[0] : {};
@@ -391,17 +394,28 @@ const WeatherUI = {
       const iconSrc = this.getWeatherIconSvg(weather.icon, weather.main);
       const rainPop = Math.round((item.pop || 0) * 100);
 
-      // Format time label: "Now" for first item, otherwise "3 PM", "6 PM"
+      const cityDate = new Date((item.dt + cityOffset) * 1000);
+      const itemDayKey = cityDate.toISOString().split('T')[0];
+
+      // Format time label: "Now" for first item, otherwise "3 PM", or "Thu 12 AM" when into another day
       let timeLabel = '';
       if (index === 0) {
         timeLabel = 'Now';
       } else {
-        const cityDate = new Date((item.dt + cityOffset) * 1000);
-        timeLabel = cityDate.toLocaleTimeString('en-US', {
+        const hourStr = cityDate.toLocaleTimeString('en-US', {
           timeZone: 'UTC',
           hour: 'numeric',
           hour12: true
         });
+        if (itemDayKey === todayKey) {
+          timeLabel = hourStr;
+        } else {
+          const weekday = cityDate.toLocaleDateString('en-US', {
+            timeZone: 'UTC',
+            weekday: 'short'
+          });
+          timeLabel = `${weekday} ${hourStr}`;
+        }
       }
 
       // Create hourly card element
@@ -418,6 +432,28 @@ const WeatherUI = {
 
       this.elements.hourlyList.appendChild(card);
     });
+
+    // Reset scroll position to start
+    this.elements.hourlyList.scrollLeft = 0;
+
+    // Update left/right scroll arrow button states
+    setTimeout(() => {
+      this.updateHourlyScrollButtons();
+    }, 60);
+  },
+
+  /**
+   * Update disabled/active state of hourly scroll arrow buttons
+   */
+  updateHourlyScrollButtons() {
+    const { scrollLeftHourlyBtn, scrollRightHourlyBtn, hourlyList } = this.elements;
+    if (!hourlyList || !scrollLeftHourlyBtn || !scrollRightHourlyBtn) return;
+
+    const maxScroll = hourlyList.scrollWidth - hourlyList.clientWidth;
+    const currentScroll = hourlyList.scrollLeft;
+
+    scrollLeftHourlyBtn.disabled = currentScroll <= 5;
+    scrollRightHourlyBtn.disabled = currentScroll >= maxScroll - 5 || maxScroll <= 0;
   },
 
   /**
